@@ -1,6 +1,7 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
 const Clutter = imports.gi.Clutter;
+const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const GMenu = imports.gi.GMenu;
@@ -377,7 +378,7 @@ const SettingsSearchProvider = new Lang.Class({
         this.parent(_("SETTINGS"));
 
         this._appSys = Shell.AppSystem.get_default();
-        this._gnomecc = this._appSys.lookup_app('gnome-control-center.desktop');
+        this.appInfo = Gio.DesktopAppInfo.new('gnome-control-center.desktop');
     },
 
     getResultMetas: function(prefs, callback) {
@@ -417,6 +418,11 @@ const SettingsSearchProvider = new Lang.Class({
         let app = resultMeta['id'];
         let icon = new AppWellIcon(app);
         return icon.actor;
+    },
+
+    launchSearch: function(terms) {
+        // FIXME: this should be a remote search provider
+        this.appInfo.launch([], global.create_app_launch_context());
     }
 });
 
