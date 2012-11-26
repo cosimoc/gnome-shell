@@ -27,6 +27,9 @@ const SearchProviderIface = <interface name="org.gnome.Shell.SearchProvider">
 <method name="ActivateResult">
     <arg type="s" direction="in" />
 </method>
+<method name="LaunchSearch">
+    <arg type="as" direction="in" />
+</method>
 </interface>;
 
 var SearchProviderProxy = Gio.DBusProxy.makeProxyWrapper(SearchProviderIface);
@@ -260,6 +263,10 @@ const RemoteSearchProvider = new Lang.Class({
 
     activateResult: function(id) {
         this._proxy.ActivateResultRemote(id);
+    },
+
+    launchSearch: function(terms) {
+        this._proxy.LaunchSearchRemote(terms);
     }
 });
 
