@@ -229,11 +229,11 @@ const GridSearchResults = new Lang.Class({
     Name: 'GridSearchResults',
     Extends: Search.SearchResultDisplay,
 
-    _init: function(provider, grid) {
+    _init: function(provider) {
         this.parent(provider);
 
-        this._grid = grid || new IconGrid.IconGrid({ rowLimit: MAX_GRID_SEARCH_RESULTS_ROWS,
-                                                     xAlign: St.Align.START });
+        this._grid = new IconGrid.IconGrid({ rowLimit: MAX_GRID_SEARCH_RESULTS_ROWS,
+                                             xAlign: St.Align.START });
         this.actor = new St.Bin({ x_align: St.Align.START });
 
         this.actor.set_child(this._grid.actor);
