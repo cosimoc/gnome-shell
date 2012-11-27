@@ -264,8 +264,14 @@ const RemoteSearchProvider = new Lang.Class({
     },
 
     launchSearch: function(terms) {
-        this._proxy.LaunchSearchRemote(terms);
+        this._proxy.LaunchSearchRemote(terms, Lang.bind(this,
+            function(result, error) {
+                if (error && error.matches(Gio.DBusError, Gio.DBusError.UNKNOWN_METHOD)) {
+                    // the provider is not compatible with this version of the interface, launch
+                    // the app itself but warn so we can catch the error in logs
+                    log('Search provider ' + this.appInfo.get_id() + ' does not implement LaunchSearch');
+                    this.appInfo.launch([], global.create_app_launch_context());
+                }
+            }));
     }
 });
-
-
